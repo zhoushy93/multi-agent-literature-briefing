@@ -1,0 +1,26 @@
+{
+  "prompt_tokens": 690,
+  "completion_tokens": 248,
+  "payload": {
+    "paper_id": "arxiv:2311.05555",
+    "problem": "Radar nowcasting needs forecasts that stay realistic at short lead times.",
+    "method": "A score-based generative model applied to radar nowcasting.",
+    "data_and_experiments": "Radar nowcasting benchmarks at 90 minute lead times.",
+    "key_findings": [
+      "It outperforms deterministic baselines at 90 minute lead times."
+    ],
+    "limitations": [
+      "The abstract covers only one 90 minute horizon."
+    ],
+    "reusable_ideas": [],
+    "evidence": [
+      {
+        "field": "abstract",
+        "locator": "abstract[0:120]",
+        "quote": "A score-based generative model is applied to radar nowcasting"
+      }
+    ],
+    "confidence": 0.65,
+    "relevance": "It shows the same generative idea applied at short lead times, which is the contrast the topic needs to be read against."
+  }
+}

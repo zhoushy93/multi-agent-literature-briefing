@@ -1,0 +1,33 @@
+{
+  "prompt_tokens": 1420,
+  "completion_tokens": 214,
+  "payload": {
+    "normalized_topic": "diffusion models for weather forecasting",
+    "queries": [
+      {
+        "source": "arxiv",
+        "q": "all:\"diffusion model\" AND all:\"weather forecasting\"",
+        "rationale": "recalls the core combination of topic and method",
+        "weight": 1.0
+      },
+      {
+        "source": "arxiv",
+        "q": "abs:\"score-based\" AND abs:nowcasting",
+        "rationale": "covers the closely related method family",
+        "weight": 0.6
+      }
+    ],
+    "keywords": [
+      "diffusion model",
+      "weather forecasting",
+      "score-based generative model"
+    ],
+    "inclusion_criteria": [
+      "proposes or evaluates a generative model for weather or climate forecasting"
+    ],
+    "exclusion_criteria": [
+      "does not use observational or reanalysis data"
+    ],
+    "time_window": [null, null]
+  }
+}

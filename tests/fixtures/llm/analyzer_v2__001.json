@@ -1,0 +1,26 @@
+{
+  "prompt_tokens": 640,
+  "completion_tokens": 240,
+  "payload": {
+    "paper_id": "arxiv:2501.00042",
+    "problem": "Seasonal climate emulation is computationally expensive.",
+    "method": "A latent diffusion model trained on climate simulations.",
+    "data_and_experiments": "Not stated in the abstract.",
+    "key_findings": [
+      "Latent diffusion is proposed for seasonal climate emulation."
+    ],
+    "limitations": [
+      "The abstract does not state an evaluation protocol."
+    ],
+    "reusable_ideas": [],
+    "evidence": [
+      {
+        "field": "metadata",
+        "locator": "title",
+        "quote": "Latent Diffusion for Seasonal Climate Emulation"
+      }
+    ],
+    "confidence": 0.35,
+    "relevance": "It sets the seasonal scale: the briefing's other papers stop at days, so this one defines how far the same method family reaches."
+  }
+}

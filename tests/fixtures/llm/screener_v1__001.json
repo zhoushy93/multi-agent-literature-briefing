@@ -1,0 +1,39 @@
+{
+  "prompt_tokens": 3180,
+  "completion_tokens": 296,
+  "payload": {
+    "selected": [
+      {
+        "tag": "C1",
+        "rank": 1,
+        "relevance_score": 0.92,
+        "rationale": "The most recent paper and the closest match to the topic.",
+        "matched_inclusion": [
+          "proposes or evaluates a generative model for weather or climate forecasting"
+        ],
+        "matched_exclusion": []
+      },
+      {
+        "tag": "C2",
+        "rank": 2,
+        "relevance_score": 0.88,
+        "rationale": "Directly about diffusion models for weather forecasting.",
+        "matched_inclusion": [
+          "proposes or evaluates a generative model for weather or climate forecasting"
+        ],
+        "matched_exclusion": []
+      },
+      {
+        "tag": "C3",
+        "rank": 3,
+        "relevance_score": 0.74,
+        "rationale": "A related score-based method with a different target variable.",
+        "matched_inclusion": [
+          "proposes or evaluates a generative model for weather or climate forecasting"
+        ],
+        "matched_exclusion": []
+      }
+    ],
+    "selection_notes": "C4 was left out because its abstract is missing."
+  }
+}

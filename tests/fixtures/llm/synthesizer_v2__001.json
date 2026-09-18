@@ -1,0 +1,63 @@
+{
+  "prompt_tokens": 2680,
+  "completion_tokens": 1180,
+  "payload": {
+    "run_id": "20260917T130000Z-diffusion-models-for-weather",
+    "topic": "diffusion models for weather forecasting",
+    "lang": "en",
+    "executive_summary": "Diffusion and score-based models now produce sharp forecasts, but skill against operational baselines is unmeasured.",
+    "background_md": "## Background\n\nGenerative models have moved from image synthesis into numerical weather prediction [P1] [P2]. Two families dominate: conditional diffusion models trained directly on reanalysis data [P2], and score-based models applied to radar nowcasting [P3].\n\n- Diffusion models target medium-range ensembles [P2]\n- Score-based models target short-horizon nowcasting [P3]\n- Latent diffusion has been proposed for seasonal emulation [P1]",
+    "method_md": "## Method\n\nThis briefing was assembled by searching arXiv for diffusion and score-based generative models applied to weather and climate forecasting [P2].\n\nThe ten most relevant candidates were screened against one inclusion criterion: the work proposes or evaluates a generative model for weather or climate forecasting. Papers that do not use observational or reanalysis data were excluded.",
+    "comparison": [
+      {
+        "citation_key": "P1",
+        "task": "Seasonal climate emulation",
+        "method_family": "Latent diffusion",
+        "data": "Climate simulations",
+        "metrics": "Not stated",
+        "main_result": "A latent diffusion emulator is proposed"
+      },
+      {
+        "citation_key": "P2",
+        "task": "Medium-range forecasting",
+        "method_family": "Conditional diffusion",
+        "data": "ERA5 reanalysis",
+        "metrics": "Resolution only",
+        "main_result": "Sharp ensembles at 0.25 degree"
+      },
+      {
+        "citation_key": "P3",
+        "task": "Radar nowcasting",
+        "method_family": "Score-based",
+        "data": "Radar nowcasting benchmarks",
+        "metrics": "Lead time",
+        "main_result": "Beats deterministic baselines at 90 minutes"
+      }
+    ],
+    "gaps_and_open_questions": [
+      {
+        "text": "None of the abstracts reports a skill score against an operational baseline, so the practical gain over existing systems remains unmeasured.",
+        "citation_keys": [
+          "P1",
+          "P2",
+          "P3"
+        ]
+      },
+      {
+        "text": "Evaluation is fragmented across lead times, regions and variables, which makes the three methods hard to compare.",
+        "citation_keys": [
+          "P2",
+          "P3"
+        ]
+      }
+    ],
+    "further_reading": [
+      {
+        "text": "Start with the medium-range diffusion paper for the clearest description of the method.",
+        "citation_keys": [
+          "P2"
+        ]
+      }
+    ]
+  }
+}

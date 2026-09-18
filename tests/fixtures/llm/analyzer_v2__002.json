@@ -1,0 +1,28 @@
+{
+  "prompt_tokens": 720,
+  "completion_tokens": 262,
+  "payload": {
+    "paper_id": "arxiv:2401.01234",
+    "problem": "Medium-range forecasts need sharp, calibrated ensembles.",
+    "method": "A conditional diffusion model trained on ERA5 reanalysis.",
+    "data_and_experiments": "ERA5 reanalysis at 0.25 degree resolution.",
+    "key_findings": [
+      "The model produces sharp ensemble forecasts at 0.25 degree resolution."
+    ],
+    "limitations": [
+      "The abstract reports no skill score against operational baselines."
+    ],
+    "reusable_ideas": [
+      "Conditional diffusion can be applied to reanalysis data directly."
+    ],
+    "evidence": [
+      {
+        "field": "abstract",
+        "locator": "abstract[0:120]",
+        "quote": "We introduce a conditional diffusion model for medium-range weather forecasting"
+      }
+    ],
+    "confidence": 0.7,
+    "relevance": "This is the closest match to the topic: a conditional diffusion model trained directly on reanalysis data for medium-range forecasts."
+  }
+}
