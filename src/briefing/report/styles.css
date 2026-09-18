@@ -1,0 +1,291 @@
+@page {
+  size: A4;
+  margin: 20mm 18mm 18mm 18mm;
+
+  @bottom-center {
+    content: counter(page);
+    font-size: 9pt;
+    color: #555555;
+  }
+}
+
+html {
+  font-size: 10.5pt;
+}
+
+body {
+  /* AGENTS.md §8: an explicit CJK chain, starting with the fonts the
+     decision record ruled in (docs/decisions/001-runtime-and-renderer.md). */
+  font-family: "Noto Sans CJK SC", "Source Han Sans SC", "STHeiti",
+    "PingFang SC", "Hiragino Sans GB", sans-serif;
+  line-height: 1.6;
+  color: #1a1a1a;
+}
+
+h1 {
+  font-size: 20pt;
+  line-height: 1.3;
+}
+
+h2 {
+  font-size: 14pt;
+  margin-top: 8mm;
+  padding-bottom: 1.5mm;
+  border-bottom: 1px solid #cccccc;
+}
+
+h3 {
+  font-size: 11.5pt;
+}
+
+a {
+  color: #1a4d8f;
+  text-decoration: none;
+}
+
+.title-page {
+  text-align: center;
+  padding-top: 45mm;
+  page-break-after: always;
+}
+
+.title-page h1 {
+  font-size: 24pt;
+  margin-bottom: 4mm;
+}
+
+.title-page .subtitle {
+  font-size: 11pt;
+  color: #555555;
+  margin-bottom: 18mm;
+}
+
+.title-page .meta {
+  font-size: 10pt;
+  color: #444444;
+}
+
+.toc {
+  page-break-after: always;
+}
+
+.toc ol {
+  list-style: none;
+  padding-left: 0;
+}
+
+.toc li {
+  margin: 1.5mm 0;
+}
+
+/* Page numbers in the table of contents come from target-counter, which is why
+   WeasyPrint is the primary engine (Chrome cannot do this). */
+.toc a::after {
+  content: " " target-counter(attr(href), page);
+  color: #666666;
+}
+
+.summary {
+  font-size: 11.5pt;
+  background: #f7f7f7;
+  border-left: 3px solid #888888;
+  padding: 4mm;
+}
+
+.card {
+  border: 1px solid #dddddd;
+  border-radius: 2mm;
+  padding: 4mm;
+  margin: 4mm 0;
+  page-break-inside: avoid;
+}
+
+.card h3 {
+  margin-top: 0;
+}
+
+.card dl {
+  margin: 0;
+}
+
+/* Presenting the card as a two-column table keeps every paper scannable in the
+   same order: Problem, Method, Data, Findings, Limitations, Relevance. */
+.card-facts {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9.5pt;
+}
+
+.card-facts th {
+  width: 26mm;
+  background: none;
+  border: none;
+  border-top: 1px solid #eeeeee;
+  color: #444444;
+  font-weight: bold;
+  text-align: left;
+  vertical-align: top;
+  padding: 1.8mm 3mm 1.8mm 0;
+}
+
+.card-facts td {
+  border: none;
+  border-top: 1px solid #eeeeee;
+  padding: 1.8mm 0;
+}
+
+.card-facts ul {
+  margin: 0;
+  padding-left: 4mm;
+}
+
+.card-facts .relevance th,
+.card-facts .relevance td {
+  background: #f7f7f7;
+}
+
+.card .source {
+  font-size: 9pt;
+  color: #555555;
+  word-break: break-all;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9pt;
+}
+
+th,
+td {
+  border: 1px solid #cccccc;
+  padding: 1.5mm;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: #f2f2f2;
+}
+
+.claim {
+  margin: 2mm 0;
+}
+
+.cite {
+  color: #444444;
+}
+
+.references {
+  font-size: 9.5pt;
+}
+
+.references li {
+  margin-bottom: 2mm;
+}
+
+.references .url {
+  word-break: break-all;
+}
+
+.appendix {
+  font-size: 9.5pt;
+  color: #333333;
+}
+
+/* --- topic overview figure ------------------------------------------------ */
+
+.overview {
+  width: 100%;
+  height: auto;
+  margin: 2mm 0 4mm 0;
+}
+
+.overview .ov-topic {
+  fill: #eef3fa;
+  stroke: #9db4d0;
+  stroke-width: 1;
+}
+
+.overview .ov-topic-text {
+  fill: #1a1a1a;
+  font-size: 11px;
+  font-weight: bold;
+  text-anchor: middle;
+}
+
+.overview .ov-line {
+  stroke: #b9c4d0;
+  stroke-width: 1;
+  fill: none;
+}
+
+.overview .ov-card {
+  fill: #ffffff;
+  stroke: #d6d6d6;
+  stroke-width: 1;
+}
+
+.overview .ov-badge {
+  fill: #4a6fa5;
+}
+
+.overview .ov-badge-text {
+  fill: #ffffff;
+  font-size: 10px;
+  font-weight: bold;
+  text-anchor: middle;
+}
+
+.overview .ov-title {
+  fill: #1a1a1a;
+  font-size: 9.5px;
+}
+
+.overview .ov-meta {
+  fill: #666666;
+  font-size: 8.5px;
+}
+
+.overview-caption {
+  font-size: 9pt;
+  color: #555555;
+  margin-top: 0;
+}
+
+/* --- at-a-glance table ---------------------------------------------------- */
+
+.summary-table {
+  font-size: 8.5pt;
+  table-layout: fixed;
+}
+
+.summary-table th,
+.summary-table td {
+  padding: 1.2mm;
+}
+
+.summary-table th:nth-child(1) {
+  width: 11mm;
+}
+
+.summary-table th:nth-child(2) {
+  width: 34mm;
+}
+
+.summary-table th:nth-child(3) {
+  width: 26mm;
+}
+
+.summary-table .num {
+  text-align: center;
+}
+
+.summary-table .muted {
+  color: #777777;
+  font-size: 8pt;
+}
+
+.muted {
+  color: #777777;
+}

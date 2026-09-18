@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+  <head>
+    <meta charset="utf-8" />
+    <title>{{ title }}</title>
+    <style>{{ styles }}</style>
+  </head>
+  <body>
+    <section class="title-page" id="title-page">
+      <h1>{{ title }}</h1>
+      <p class="subtitle">{{ subtitle }}</p>
+      <div class="meta">
+        <p>{{ labels.run_id }}: {{ run_id }}</p>
+        <p>{{ labels.generated_at }}: {{ generated_at }}</p>
+        <p>{{ labels.model }}: {{ model_id }}</p>
+        <p>{{ labels.paper_count }}: {{ references | length }}</p>
+      </div>
+    </section>
+
+    <nav class="toc" id="toc">
+      <h2>{{ labels.toc }}</h2>
+      <ol>
+        {% for section in sections %}
+        <li><a href="#{{ section.anchor }}">{{ section.title }}</a></li>
+        {% endfor %}
+      </ol>
+    </nav>
+
+    <section id="summary">
+      <h2>{{ labels.summary }}</h2>
+      <p class="summary">{{ executive_summary }}</p>
+    </section>
+
+    <section id="overview">
+      <h2>{{ labels.overview }}</h2>
+      <p class="overview-caption">{{ labels.overview_caption }}</p>
+      {{ topic_overview | safe }}
+      <h3>{{ labels.overview_table }}</h3>
+      <table class="summary-table">
+        <thead>
+          <tr>
+            <th>{{ labels.col_reference }}</th>
+            <th>{{ labels.col_paper }}</th>
+            <th>{{ labels.col_method }}</th>
+            <th>{{ labels.col_finding }}</th>
+            <th>{{ labels.col_relevance }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in summary_rows %}
+          <tr>
+            <td class="num">[{{ row.number }}]</td>
+            <td>{{ row.title }}<br /><span class="muted">{{ row.year }}</span></td>
+            <td>{{ row.method_family }}</td>
+            <td>{{ row.finding }}</td>
+            <td>{{ row.relevance }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+
+    <section id="background">
+      <h2>{{ labels.background }}</h2>
+      {{ background_html | safe }}
+    </section>
+
+    <section id="method">
+      <h2>{{ labels.method }}</h2>
+      {{ method_html | safe }}
+      {% if queries %}
+      <h3>{{ labels.queries }}</h3>
+      <ul>
+        {% for query in queries %}
+        <li><code>{{ query }}</code></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      {% if inclusion_criteria or exclusion_criteria %}
+      <h3>{{ labels.criteria }}</h3>
+      <ul>
+        {% for criterion in inclusion_criteria %}
+        <li>{{ labels.include }}: {{ criterion }}</li>
+        {% endfor %}
+        {% for criterion in exclusion_criteria %}
+        <li>{{ labels.exclude }}: {{ criterion }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </section>
+
+    <section id="cards">
+      <h2>{{ labels.cards }}</h2>
+      {% for card in cards %}
+      <div class="card">
+        <h3>[{{ card.number }}] {{ card.title }}</h3>
+        <p class="source">
+          {{ card.authors }} · {{ card.venue }} · {{ card.year }}
+          · <a href="{{ card.url }}">{{ card.url }}</a>
+        </p>
+        <table class="card-facts">
+          <tbody>
+            <tr>
+              <th>{{ labels.problem }}</th>
+              <td>{{ card.problem }}</td>
+            </tr>
+            <tr>
+              <th>{{ labels.method_field }}</th>
+              <td>{{ card.method }}</td>
+            </tr>
+            <tr>
+              <th>{{ labels.data_field }}</th>
+              <td>{{ card.data_and_experiments }}</td>
+            </tr>
+            <tr>
+              <th>{{ labels.findings }}</th>
+              <td>
+                <ul>
+                  {% for finding in card.key_findings %}
+                  <li>{{ finding }}</li>
+                  {% endfor %}
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th>{{ labels.limitations }}</th>
+              <td>
+                <ul>
+                  {% for limitation in card.limitations %}
+                  <li>{{ limitation }}</li>
+                  {% endfor %}
+                </ul>
+              </td>
+            </tr>
+            <tr class="relevance">
+              <th>{{ labels.relevance }}</th>
+              <td>{{ card.relevance }}</td>
+            </tr>
+            {% if card.reusable_ideas %}
+            <tr>
+              <th>{{ labels.ideas }}</th>
+              <td>
+                <ul>
+                  {% for idea in card.reusable_ideas %}
+                  <li>{{ idea }}</li>
+                  {% endfor %}
+                </ul>
+              </td>
+            </tr>
+            {% endif %}
+            <tr>
+              <th>{{ labels.confidence }}</th>
+              <td>{{ card.confidence }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      {% endfor %}
+    </section>
+
+    <section id="comparison">
+      <h2>{{ labels.comparison }}</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>{{ labels.col_reference }}</th>
+            <th>{{ labels.col_task }}</th>
+            <th>{{ labels.col_method }}</th>
+            <th>{{ labels.col_data }}</th>
+            <th>{{ labels.col_metrics }}</th>
+            <th>{{ labels.col_result }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in comparison %}
+          <tr>
+            <td>[{{ row.number }}]</td>
+            <td>{{ row.task }}</td>
+            <td>{{ row.method_family }}</td>
+            <td>{{ row.data }}</td>
+            <td>{{ row.metrics }}</td>
+            <td>{{ row.main_result }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+
+    <section id="gaps">
+      <h2>{{ labels.gaps }}</h2>
+      {% for claim in gaps %}
+      <p class="claim">
+        {{ claim.text }} <span class="cite">{{ claim.citations }}</span>
+      </p>
+      {% endfor %}
+    </section>
+
+    {% if further_reading %}
+    <section id="further-reading">
+      <h2>{{ labels.further_reading }}</h2>
+      {% for claim in further_reading %}
+      <p class="claim">
+        {{ claim.text }} <span class="cite">{{ claim.citations }}</span>
+      </p>
+      {% endfor %}
+    </section>
+    {% endif %}
+
+    <section id="references">
+      <h2>{{ labels.references }}</h2>
+      <ol class="references">
+        {% for reference in references %}
+        <li>
+          {{ reference.text }}
+          <span class="url">{{ reference.paper.url }}</span>
+        </li>
+        {% endfor %}
+      </ol>
+    </section>
+
+    <section id="appendix" class="appendix">
+      <h2>{{ labels.appendix }}</h2>
+      <table>
+        <tbody>
+          <tr>
+            <th>{{ labels.run_id }}</th>
+            <td>{{ run_id }}</td>
+          </tr>
+          <tr>
+            <th>{{ labels.model }}</th>
+            <td>{{ model_id }}</td>
+          </tr>
+          <tr>
+            <th>{{ labels.prompt_versions }}</th>
+            <td>
+              {% for name, version in prompt_versions.items() %}{{ name }}={{ version
+              }}{% if not loop.last %}, {% endif %}{% endfor %}
+            </td>
+          </tr>
+          <tr>
+            <th>{{ labels.llm_calls }}</th>
+            <td>{{ llm_calls }}</td>
+          </tr>
+          <tr>
+            <th>{{ labels.tokens }}</th>
+            <td>{{ total_tokens }}</td>
+          </tr>
+          <tr>
+            <th>{{ labels.generated_at }}</th>
+            <td>{{ generated_at }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </body>
+</html>
