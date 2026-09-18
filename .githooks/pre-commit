@@ -1,0 +1,30 @@
+#!/bin/sh
+# Refuse to commit anything that looks like a credential (AGENTS.md §9).
+#
+# Enable it once per clone:
+#     git config core.hooksPath .githooks
+#
+# This is a fast first line of defence. tests/unit/test_no_secrets.py is the
+# thorough one and runs as part of the normal gate.
+set -eu
+
+for path in $(git diff --cached --name-only --diff-filter=ACMR); do
+  case "$path" in
+    .env|.env.local|.env.*.local|*/.env|*/.env.local)
+      echo "pre-commit: refusing to commit $path" >&2
+      exit 1
+      ;;
+    */secrets/*|*.pem|*.key|.netrc|credentials.json)
+      echo "pre-commit: refusing to commit $path" >&2
+      exit 1
+      ;;
+  esac
+done
+
+if git diff --cached -U0 -- . ':(exclude)uv.lock' \
+  | grep -nE '(sk-[A-Za-z0-9]{20,}|gh[pousr]_[A-Za-z0-9]{20,}|-----BEGIN [A-Z ]*PRIVATE KEY-----|Authorization: Bearer [A-Za-z0-9._-]{20,}|DEEPSEEK_API_KEY[[:space:]]*=[[:space:]]*[A-Za-z0-9_-]{20,})' >&2; then
+  echo "pre-commit: the staged diff contains something credential-shaped" >&2
+  exit 1
+fi
+
+exit 0

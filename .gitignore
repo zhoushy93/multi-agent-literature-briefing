@@ -1,0 +1,32 @@
+# Secrets. Anything that can hold a credential stays out of the repository;
+# .env.example is the only env file that belongs in it (it holds no values).
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+secrets/
+.netrc
+credentials.json
+
+# Run artifacts and caches (AGENTS.md §9)
+data/cache/
+outputs/
+scratch/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Tooling caches
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# macOS
+.DS_Store

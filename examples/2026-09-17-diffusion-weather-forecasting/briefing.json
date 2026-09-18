@@ -1,0 +1,284 @@
+{
+  "run_id": "20260917T140136Z-diffusion-models-for-weather-forecasting",
+  "topic": "diffusion models for weather forecasting",
+  "lang": "en",
+  "executive_summary": "Diffusion models unify diverse weather tasks, improving ensemble forecasts and enabling scalable climate emulation.",
+  "background_md": "Weather and climate modeling is fragmented across specialized models for distinct tasks, limiting efficiency and scalability [P1]. Diffusion models offer a unified framework for probabilistic forecasting, downscaling, and reconstruction [P1]. Recent advances in latent diffusion improve high-resolution ensemble forecasts [P2, P3] and scalable climate emulation [P5]. However, the field lacks clarity on the fundamental drivers of forecast accuracy [P4].",
+  "method_md": "This briefing synthesizes five papers from a targeted search on diffusion models for weather forecasting. Inclusion criteria: papers directly applying diffusion models to atmospheric or climate modeling, published 2025-2026. Exclusion criteria: papers not using diffusion models or not focused on weather/climate. The papers were analyzed for problem, method, data, and key findings.",
+  "paper_cards": [
+    {
+      "citation_key": "P1",
+      "analysis": {
+        "paper_id": "arxiv:2602.03924",
+        "problem": "The paper addresses the fragmentation in atmospheric modeling where specialized models are trained individually for distinct tasks. It aims to unify this landscape with a single pre-trained foundation model that can handle diverse weather and climate problems without task-specific fine-tuning.",
+        "method": "The authors introduce WIND, a pre-trained foundation model that uses a self-supervised video reconstruction objective with an unconditional video diffusion model to learn a task-agnostic prior of the atmosphere. At inference, diverse problems are framed as inverse problems and solved via posterior sampling.",
+        "data_and_experiments": "The abstract does not specify datasets or benchmarks. It mentions tasks including probabilistic forecasting, spatial and temporal downscaling, reconstruction from sparse observations, enforcing global dry air mass conservation, and exploring extreme weather events under out-of-distribution thermodynamic perturbations.",
+        "key_findings": [
+          "WIND can replace specialized baselines across a vast array of tasks without any task-specific fine-tuning.",
+          "The model handles probabilistic forecasting, spatial and temporal downscaling, reconstruction from sparse observations, and enforcing global dry air mass conservation.",
+          "WIND can be applied to explore extreme weather events under prescribed out-of-distribution thermodynamic perturbations.",
+          "The approach offers a computationally efficient alternative for AI-based atmospheric modeling."
+        ],
+        "limitations": [
+          "not stated in the abstract"
+        ],
+        "reusable_ideas": [
+          "Using a self-supervised video reconstruction objective with an unconditional video diffusion model to learn a task-agnostic prior.",
+          "Framing diverse domain-specific problems as inverse problems and solving them via posterior sampling.",
+          "Applying a single pre-trained foundation model to multiple tasks without fine-tuning."
+        ],
+        "evidence": [
+          {
+            "field": "abstract",
+            "locator": "abstract[0:300]",
+            "quote": "To unify this landscape, we introduce WIND, a single pre-trained foundation model capable of replacing specialized baselines across a vast array of tasks. Crucially, in contrast to previous atmospheric foundation models, we achieve this without any task-specific fine-tuning."
+          },
+          {
+            "field": "abstract",
+            "locator": "abstract[300:600]",
+            "quote": "At inference, we frame diverse domain-specific problems strictly as inverse problems and solve them via posterior sampling. This unified approach allows us to tackle highly relevant weather and climate problems, including probabilistic forecasting, spatial and temporal downscaling, reconstruction …"
+          }
+        ],
+        "confidence": 0.9
+      }
+    },
+    {
+      "citation_key": "P2",
+      "analysis": {
+        "paper_id": "arxiv:2602.11807",
+        "problem": "Latent diffusion models (LDMs) have limited diffusability in high-resolution (<=0.25°) ensemble weather forecasting. Existing approaches either rely on task-agnostic foundation models or impose identical spectral regularization across channels, which fails due to inter-variable spectral heterogeneity in multivariate meteorological data.",
+        "method": "The authors propose a 3D Masked AutoEncoder (3D-MAE) that encodes weather-state evolution features as additional conditioning for the diffusion model. They also introduce a Variable-Aware Masked Frequency Modeling (VA-MFM) strategy that adaptively selects thresholds based on the spectral energy distribution of each variable. Together, these form PuYun-LDM.",
+        "data_and_experiments": "The paper evaluates PuYun-LDM on high-resolution (<=0.25°) ensemble weather forecasting. It generates a 15-day global forecast with a 6-hour temporal resolution. The model is compared to ENS (ECMWF ensemble) at short and longer lead times. Experiments are run on a single NVIDIA H200 GPU.",
+        "key_findings": [
+          "PuYun-LDM enhances latent diffusability compared to existing LDMs.",
+          "PuYun-LDM achieves superior performance to ENS at short lead times.",
+          "PuYun-LDM remains comparable to ENS at longer horizons.",
+          "PuYun-LDM generates a 15-day global forecast with 6-hour temporal resolution in five minutes on a single NVIDIA H200 GPU.",
+          "Ensemble forecasts can be efficiently produced in parallel."
+        ],
+        "limitations": [
+          "not stated in the abstract"
+        ],
+        "reusable_ideas": [
+          "Use a 3D Masked AutoEncoder to encode spatiotemporal evolution features as conditioning for diffusion models.",
+          "Apply variable-aware adaptive thresholding in frequency-domain regularization to handle heterogeneous spectral energy distributions across channels.",
+          "Leverage latent diffusion models for efficient high-resolution ensemble forecasting with parallel generation."
+        ],
+        "evidence": [
+          {
+            "field": "abstract",
+            "locator": "abstract[0:300]",
+            "quote": "Latent diffusion models (LDMs) suffer from limited diffusability in high-resolution (<=0.25°) ensemble weather forecasting, where diffusability characterizes how easily a latent data distribution can be modeled by a diffusion process."
+          },
+          {
+            "field": "abstract",
+            "locator": "abstract[300:600]",
+            "quote": "To address these challenges, we propose a 3D Masked AutoEncoder (3D-MAE) that encodes weather-state evolution features as an additional conditioning for the diffusion model, together with a Variable-Aware Masked Frequency Modeling (VA-MFM) strategy that adaptively selects thresholds based on the …"
+          },
+          {
+            "field": "abstract",
+            "locator": "abstract[600:900]",
+            "quote": "PuYun-LDM generates a 15-day global forecast with a 6-hour temporal resolution in five minutes on a single NVIDIA H200 GPU, while ensemble forecasts can be efficiently produced in parallel."
+          }
+        ],
+        "confidence": 0.9
+      }
+    },
+    {
+      "citation_key": "P3",
+      "analysis": {
+        "paper_id": "arxiv:2506.09193",
+        "problem": "Accurate probabilistic weather forecasting requires both high accuracy and efficient uncertainty quantification, which overburdens ensemble numerical weather prediction and recent machine-learning methods.",
+        "method": "The authors introduce LaDCast, a global latent-diffusion framework that generates hourly ensemble forecasts in a learned latent space. An autoencoder compresses ERA5 fields, and a transformer-based diffusion model produces sequential latent updates with arbitrary hour initialization, incorporating GeoRoPE, dual-stream attention, and sinusoidal temporal embeddings.",
+        "data_and_experiments": "The model is trained and evaluated on ERA5 reanalysis data. It is compared against the European Centre for Medium-Range Forecast IFS-ENS, with evaluation of deterministic and probabilistic skill, and tracking of rare extreme events such as cyclones.",
+        "key_findings": [
+          "LaDCast achieves deterministic and probabilistic skill close to that of IFS-ENS without explicit perturbations.",
+          "LaDCast demonstrates superior performance in tracking rare extreme events such as cyclones, capturing their trajectories more accurately than established models.",
+          "Operating in latent space reduces storage and compute by orders of magnitude, demonstrating a practical path toward forecasting at kilometer-scale resolution in real time."
+        ],
+        "limitations": [
+          "not stated in the abstract"
+        ],
+        "reusable_ideas": [
+          "Use latent diffusion for efficient ensemble forecasting in high-dimensional spatiotemporal data.",
+          "Incorporate geometric rotary position embeddings to account for spherical geometry in global models.",
+          "Employ dual-stream attention for efficient conditioning in sequential generation.",
+          "Use sinusoidal temporal embeddings to capture seasonal patterns in time-series forecasting."
+        ],
+        "evidence": [
+          {
+            "field": "abstract",
+            "locator": "abstract[0:300]",
+            "quote": "We introduce LaDCast, the first global latent-diffusion framework for medium-range ensemble forecasting, which generates hourly ensemble forecasts entirely in a learned latent space."
+          },
+          {
+            "field": "abstract",
+            "locator": "abstract[300:600]",
+            "quote": "LaDCast achieves deterministic and probabilistic skill close to that of the European Centre for Medium-Range Forecast IFS-ENS, without any explicit perturbations."
+          }
+        ],
+        "confidence": 0.9
+      }
+    },
+    {
+      "citation_key": "P4",
+      "analysis": {
+        "paper_id": "arxiv:2601.18111",
+        "problem": "The recent revolution in data-driven methods for weather forecasting has led to a fragmented landscape of complex, bespoke architectures and training strategies, obscuring the fundamental drivers of forecast accuracy.",
+        "method": "The authors introduce a scalable framework for learning multi-scale atmospheric dynamics by combining a directly downsampled latent space with a history-conditioned local projector that resolves high-resolution physics. The framework design is robust to the choice of probabilistic estimator, seamlessly supporting stochastic interpolants, diffusion models, and CRPS-based ensemble training.",
+        "data_and_experiments": "Validated against the Integrated Forecasting System and the deep learning probabilistic model GenCast.",
+        "key_findings": [
+          "State-of-the-art probabilistic skill requires neither intricate architectural constraints nor specialized training heuristics.",
+          "The framework achieves statistically significant improvements on most of the variables compared to the Integrated Forecasting System and GenCast.",
+          "Scaling a general-purpose model is sufficient for state-of-the-art medium-range prediction, eliminating the need for tailored training recipes.",
+          "The framework is effective across the full spectrum of probabilistic frameworks."
+        ],
+        "limitations": [
+          "not stated in the abstract"
+        ],
+        "reusable_ideas": [
+          "Directly downsampled latent space combined with a history-conditioned local projector for multi-scale dynamics.",
+          "Robustness to probabilistic estimator choice (stochastic interpolants, diffusion models, CRPS-based ensemble training).",
+          "Scaling a general-purpose model instead of bespoke architectures for medium-range prediction."
+        ],
+        "evidence": [
+          {
+            "field": "abstract",
+            "locator": "abstract[0:120]",
+            "quote": "The recent revolution in data-driven methods for weather forecasting has lead to a fragmented landscape of complex, bespoke architectures and training strategies, obscuring the fundamental drivers of forecast accuracy."
+          },
+          {
+            "field": "abstract",
+            "locator": "abstract[120:300]",
+            "quote": "We introduce a scalable framework for learning multi-scale atmospheric dynamics by combining a directly downsampled latent space with a history-conditioned local projector that resolves high-resolution physics."
+          },
+          {
+            "field": "abstract",
+            "locator": "abstract[300:450]",
+            "quote": "We find that our framework design is robust to the choice of probabilistic estimator, seamlessly supporting stochastic interpolants, diffusion models, and CRPS-based ensemble training."
+          },
+          {
+            "field": "abstract",
+            "locator": "abstract[450:600]",
+            "quote": "Validated against the Integrated Forecasting System and the deep learning probabilistic model GenCast, our framework achieves statistically significant improvements on most of the variables."
+          }
+        ],
+        "confidence": 0.9
+      }
+    },
+    {
+      "citation_key": "P5",
+      "analysis": {
+        "paper_id": "arxiv:2601.15102",
+        "problem": "Kilometer-scale Earth system models are essential for capturing local climate change but are computationally expensive and produce petabyte-scale outputs, limiting their utility for applications such as probabilistic risk assessment.",
+        "method": "The authors present the Field-Space Autoencoder, a scalable climate emulation framework based on a spherical compression model that uses Field-Space Attention to operate on native climate model output, avoiding geometric distortions from forcing spherical data onto Euclidean grids. They train a generative diffusion model on the compressed fields to learn internal variability from low-resolution data and fine-scale physics from high-resolution data.",
+        "data_and_experiments": "The abstract does not specify particular datasets or benchmarks. It mentions training on abundant low-resolution data and sparse high-resolution data, and performing zero-shot super-resolution mapping low-resolution large ensembles and scarce high-resolution data into a shared representation.",
+        "key_findings": [
+          "The Field-Space Autoencoder preserves physical structures significantly better than convolutional baselines.",
+          "The model produces a structured compressed field that serves as a good baseline for downstream generative emulation.",
+          "The model can perform zero-shot super-resolution that maps low-resolution large ensembles and scarce high-resolution data into a shared representation.",
+          "The generative diffusion model can simultaneously learn internal variability from abundant low-resolution data and fine-scale physics from sparse high-resolution data."
+        ],
+        "limitations": [
+          "not stated in the abstract"
+        ],
+        "reusable_ideas": [
+          "Using spherical compression models to avoid geometric distortions when processing data on the sphere.",
+          "Applying attention mechanisms directly on native spherical data for better structure preservation.",
+          "Combining abundant low-resolution data with sparse high-resolution data in a shared latent space for generative modeling.",
+          "Using autoencoder-compressed fields as a basis for downstream generative models."
+        ],
+        "evidence": [
+          {
+            "field": "abstract",
+            "locator": "abstract[0:120]",
+            "quote": "Kilometer-scale Earth system models are essential for capturing local climate change. However, these models are computationally expensive and produce petabyte-scale outputs, which limits their utility for applications such as probabilistic risk assessment."
+          },
+          {
+            "field": "abstract",
+            "locator": "abstract[120:300]",
+            "quote": "Here, we present the Field-Space Autoencoder, a scalable climate emulation framework based on a spherical compression model that overcomes these challenges. By utilizing Field-Space Attention, the model efficiently operates on native climate model output and therefore avoids geometric distortions …"
+          },
+          {
+            "field": "abstract",
+            "locator": "abstract[300:480]",
+            "quote": "This approach preserves physical structures significantly better than convolutional baselines. By producing a structured compressed field, it serves as a good baseline for downstream generative emulation."
+          },
+          {
+            "field": "abstract",
+            "locator": "abstract[480:650]",
+            "quote": "In addition, the model can perform zero-shot super-resolution that maps low-resolution large ensembles and scarce high-resolution data into a shared representation. We train a generative diffusion model on these compressed fields."
+          },
+          {
+            "field": "abstract",
+            "locator": "abstract[650:800]",
+            "quote": "The model can simultaneously learn internal variability from abundant low-resolution data and fine-scale physics from sparse high-resolution data. Our work bridges the gap between the high volume of low-resolution ensemble statistics and the scarcity of high-resolution physical detail."
+          }
+        ],
+        "confidence": 0.9
+      }
+    }
+  ],
+  "comparison": [
+    {
+      "citation_key": "P1",
+      "task": "Unified atmospheric modeling (forecasting, downscaling, reconstruction)",
+      "method_family": "Unconditional video diffusion with posterior sampling",
+      "data": "Not specified",
+      "metrics": "Not specified",
+      "main_result": "Single pre-trained model handles multiple tasks without fine-tuning"
+    },
+    {
+      "citation_key": "P2",
+      "task": "High-resolution ensemble weather forecasting",
+      "method_family": "Latent diffusion with 3D-MAE conditioning and VA-MFM",
+      "data": "High-resolution (<=0.25°) global data",
+      "metrics": "Comparison to ENS (ECMWF ensemble)",
+      "main_result": "Superior to ENS at short lead times, comparable at longer horizons"
+    },
+    {
+      "citation_key": "P3",
+      "task": "Medium-range ensemble weather forecasting",
+      "method_family": "Latent diffusion with autoencoder and transformer",
+      "data": "ERA5 reanalysis",
+      "metrics": "Deterministic and probabilistic skill vs IFS-ENS",
+      "main_result": "Skill close to IFS-ENS, better cyclone tracking"
+    },
+    {
+      "citation_key": "P4",
+      "task": "Probabilistic medium-range weather forecasting",
+      "method_family": "Downsampled latent space with local projector",
+      "data": "Validated against IFS and GenCast",
+      "metrics": "Statistical significance vs IFS and GenCast",
+      "main_result": "General-purpose model achieves state-of-the-art without bespoke design"
+    },
+    {
+      "citation_key": "P5",
+      "task": "Climate emulation and super-resolution",
+      "method_family": "Spherical autoencoder with diffusion generative model",
+      "data": "Low-resolution and high-resolution climate model output",
+      "metrics": "Structure preservation vs convolutional baselines",
+      "main_result": "Preserves physical structures better and enables zero-shot super-resolution"
+    }
+  ],
+  "gaps_and_open_questions": [
+    {
+      "text": "The abstracts do not report quantitative metrics or benchmark datasets for several models, making direct comparison difficult [P1, P5].",
+      "citation_keys": [
+        "P1",
+        "P5"
+      ]
+    },
+    {
+      "text": "Limitations are not stated in any of the abstracts, leaving uncertainty about failure modes and computational costs [P1, P2, P3, P4, P5].",
+      "citation_keys": [
+        "P1",
+        "P2",
+        "P3",
+        "P4",
+        "P5"
+      ]
+    }
+  ],
+  "further_reading": []
+}

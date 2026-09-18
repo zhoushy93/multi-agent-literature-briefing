@@ -1,0 +1,111 @@
+{
+  "run_id": "20260917T140136Z-diffusion-models-for-weather-forecasting",
+  "topic": "diffusion models for weather forecasting",
+  "lang": "en",
+  "status": "ok",
+  "started_at": "2026-09-17T14:01:36.561928Z",
+  "finished_at": "2026-09-17T14:02:54.466937Z",
+  "duration_s": 77.907,
+  "model": {
+    "id": "deepseek-v4-pro",
+    "reasoning_id": null,
+    "base_url_host": "api.deepseek.com",
+    "params": {
+      "temperature": {
+        "plan": 0.0,
+        "screen": 0.0,
+        "analyze": 0.2,
+        "synthesize": 0.3,
+        "verify": 0.0
+      },
+      "top_p": 1.0,
+      "max_tokens": 4096,
+      "thinking": "disabled"
+    }
+  },
+  "prompt_versions": {
+    "analyzer_v2": "analyzer_v2",
+    "planner_v1": "planner_v1",
+    "screener_v1": "screener_v1",
+    "synthesizer_v2": "synthesizer_v2",
+    "verifier_v1": "verifier_v1"
+  },
+  "retrieval": {
+    "queries": [
+      "arxiv: all:\"diffusion model\" AND all:\"weather forecasting\"",
+      "arxiv: all:\"diffusion model\" AND all:\"precipitation nowcasting\"",
+      "arxiv: all:\"diffusion model\" AND all:\"climate modeling\"",
+      "arxiv: all:\"denoising diffusion\" AND all:\"weather\"",
+      "arxiv: all:\"score-based generative model\" AND all:\"meteorology\""
+    ],
+    "candidates_found": 107,
+    "after_dedup": 40,
+    "selected": 5,
+    "per_source_counts": {
+      "arxiv": 107
+    },
+    "cache": {
+      "hits": 0,
+      "misses": 0,
+      "bypassed": true,
+      "ttl_days": 30
+    },
+    "dropped": {
+      "pool_capped": 58
+    }
+  },
+  "llm_usage": {
+    "calls": 10,
+    "prompt_tokens": 34962,
+    "completion_tokens": 7037,
+    "est_cost_usd": null,
+    "per_stage": {
+      "S1": 1,
+      "S4": 2,
+      "S5": 5,
+      "S6": 2
+    }
+  },
+  "budget": {
+    "max_calls": 40,
+    "max_tokens": 400000,
+    "exceeded": false,
+    "reason": null
+  },
+  "verification": {
+    "passed": true,
+    "deterministic_violations": 0,
+    "semantic_violations": 0,
+    "revisions": 1,
+    "semantic_enabled": false
+  },
+  "renderer": {
+    "name": "weasyprint",
+    "version": "70.0",
+    "fallback": false,
+    "cjk_font_embedded": true
+  },
+  "stage_timings_s": {
+    "S1": 7.024,
+    "S2": 7.56,
+    "S3": 0.001,
+    "S4": 17.016,
+    "S5": 16.004,
+    "S6.revision0": 18.253,
+    "S7.revision0": 0.001,
+    "S6.revision1": 11.544,
+    "S7.revision1": 0.001,
+    "S8": 0.479
+  },
+  "resume": {
+    "enabled": false,
+    "skipped_stages": []
+  },
+  "artifacts": {
+    "report_pdf": "report.pdf",
+    "briefing_md": "briefing.md",
+    "briefing_json": "briefing.json",
+    "papers_json": "papers.json"
+  },
+  "error": null
+}
