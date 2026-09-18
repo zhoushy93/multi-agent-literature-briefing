@@ -62,7 +62,8 @@
 | # | 缺口 | 影响 | 建议 |
 | --- | --- | --- | --- |
 | G1 | `BRIEFING_DEEPSEEK_MODEL_REASONING` 是空转配置：会写入 manifest，但 `create_llm_client` 只按 `BRIEFING_DEEPSEEK_MODEL` 建一个客户端（`AGENTS.md` §6 允许按阶段拆分模型） | 无法给 Screener/Synthesizer 单独指定更强模型 | 需要时实现：按阶段建第二个客户端并由编排器注入 |
-| G2 | 数据源层没有重试：arXiv 返回 5xx/超时只会让该查询失败（整体降级，不致命） | 单查询偶发失败会损失召回 | 复用 LLM 侧同规格的退避重试 |
+| G2 | ~~数据源层没有重试~~ → **已修复（2026-09-18）**：arXiv 的 406 实为限流（IP + 滚动窗口），现已有请求间隔、单连接串行、共享冷却与有界重试；并新增 **OpenAlex 备用源**自动降级（见 `docs/decisions/004-arxiv-rate-limits.md`） | 曾经一次运行 6 个查询全部 406；现在 arXiv 被限流时改用 OpenAlex 完成 | 保持缓存默认开启；`--no-cache` 只用于必须刷新的场景 |
+| G4 | 同一工作的不同版本（如 AAAI 正式版 DOI 与 arXiv DOI）标题相同却**不会合并**——这是 S5 的既定规则："双方都带 DOI 且 DOI 不同则不按标题合并" | 极端情况下可能有两篇实为同一工作的条目同时入选 | 若需要，可加"arXiv DOI + 出版社 DOI 且标题归一化相同 ⇒ 同一工作"的定向规则，但须先写进设计文档 |
 | G3 | `Paper.doi` 与 `arxiv_id` 都可为 `None`，`AGENTS.md` §1.1「至少其一，确实不存在时显式标注 null 并说明」中的「说明」没有承载字段 | 该验收条件只被部分机制保证 | 若需要，加 `identifier_note` 字段并同步契约文档 |
 
 ### 3.2 未决事项

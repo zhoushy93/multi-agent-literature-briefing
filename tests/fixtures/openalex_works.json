@@ -1,0 +1,1473 @@
+{
+  "meta": {
+    "count": 72532,
+    "per_page": 2
+  },
+  "results": [
+    {
+      "id": "https://openalex.org/W2028979275",
+      "doi": "https://doi.org/10.1175/mwr3199.1",
+      "title": "A New Vertical Diffusion Package with an Explicit Treatment of Entrainment Processes",
+      "publication_year": 2006,
+      "type": "article",
+      "cited_by_count": 7455,
+      "authorships": [
+        {
+          "author_position": "first",
+          "author": {
+            "id": "https://openalex.org/A5110023267",
+            "display_name": "Song-You Hong",
+            "orcid": null
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I193775966",
+              "display_name": "Yonsei University",
+              "ror": "https://ror.org/01wjejq96",
+              "country_code": "KR",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I193775966"
+              ]
+            }
+          ],
+          "countries": [
+            "KR"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Song-You Hong",
+          "raw_affiliation_strings": [
+            "Department of Atmospheric Sciences, Global Environment Laboratory, Yonsei University, Seoul, South Korea"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Department of Atmospheric Sciences, Global Environment Laboratory, Yonsei University, Seoul, South Korea",
+              "institution_ids": [
+                "https://openalex.org/I193775966"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5107963335",
+            "display_name": "Yign Noh",
+            "orcid": "https://orcid.org/0000-0002-3948-1791"
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I193775966",
+              "display_name": "Yonsei University",
+              "ror": "https://ror.org/01wjejq96",
+              "country_code": "KR",
+              "type": "education",
+              "lineage": [
+                "https://openalex.org/I193775966"
+              ]
+            }
+          ],
+          "countries": [
+            "KR"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Yign Noh",
+          "raw_affiliation_strings": [
+            "Department of Atmospheric Sciences, Global Environment Laboratory, Yonsei University, Seoul, South Korea"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Department of Atmospheric Sciences, Global Environment Laboratory, Yonsei University, Seoul, South Korea",
+              "institution_ids": [
+                "https://openalex.org/I193775966"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "last",
+          "author": {
+            "id": "https://openalex.org/A5030048523",
+            "display_name": "Jimy Dudhia",
+            "orcid": "https://orcid.org/0000-0002-2394-6232"
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I107766831",
+              "display_name": "NSF National Center for Atmospheric Research",
+              "ror": "https://ror.org/05cvfcr44",
+              "country_code": "US",
+              "type": "facility",
+              "lineage": [
+                "https://openalex.org/I107766831",
+                "https://openalex.org/I1311060795",
+                "https://openalex.org/I2799356940",
+                "https://openalex.org/I4210141337",
+                "https://openalex.org/I4210150888"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Jimy Dudhia",
+          "raw_affiliation_strings": [
+            "Mesoscale and Microscale Meteorology Division, National Center for Atmospheric Research, Boulder, Colorado"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Mesoscale and Microscale Meteorology Division, National Center for Atmospheric Research, Boulder, Colorado",
+              "institution_ids": [
+                "https://openalex.org/I107766831"
+              ]
+            }
+          ]
+        }
+      ],
+      "primary_location": {
+        "id": "doi:10.1175/mwr3199.1",
+        "is_oa": true,
+        "landing_page_url": "https://doi.org/10.1175/mwr3199.1",
+        "pdf_url": "https://journals.ametsoc.org/downloadpdf/journals/mwre/134/9/mwr3199.1.pdf",
+        "source": {
+          "id": "https://openalex.org/S90791864",
+          "display_name": "Monthly Weather Review",
+          "issn_l": "0027-0644",
+          "issn": [
+            "0027-0644",
+            "1520-0493"
+          ],
+          "is_oa": false,
+          "is_in_doaj": false,
+          "is_core": true,
+          "listed_in": [
+            "cwts-core"
+          ],
+          "host_organization": "https://openalex.org/P4310320260",
+          "host_organization_name": "American Meteorological Society",
+          "host_organization_lineage": [
+            "https://openalex.org/P4310320260"
+          ],
+          "host_organization_lineage_names": [
+            "American Meteorological Society"
+          ],
+          "type": "journal"
+        },
+        "license": null,
+        "license_id": null,
+        "version": "publishedVersion",
+        "is_accepted": true,
+        "is_published": true,
+        "raw_source_name": "Monthly Weather Review",
+        "raw_type": "journal-article"
+      },
+      "abstract_inverted_index": {
+        "Abstract": [
+          0
+        ],
+        "This": [
+          1,
+          294
+        ],
+        "paper": [
+          2
+        ],
+        "proposes": [
+          3
+        ],
+        "a": [
+          4,
+          10,
+          41,
+          93,
+          194,
+          205,
+          209,
+          244,
+          264,
+          288
+        ],
+        "revised": [
+          5,
+          42,
+          99
+        ],
+        "vertical": [
+          6,
+          43
+        ],
+        "diffusion": [
+          7,
+          44,
+          82
+        ],
+        "package": [
+          8,
+          83
+        ],
+        "with": [
+          9,
+          108
+        ],
+        "nonlocal": [
+          11
+        ],
+        "turbulent": [
+          12
+        ],
+        "mixing": [
+          13,
+          120,
+          150
+        ],
+        "coefficient": [
+          14
+        ],
+        "in": [
+          15,
+          121,
+          131,
+          143,
+          151,
+          155,
+          169,
+          186,
+          233,
+          247,
+          266
+        ],
+        "the": [
+          16,
+          23,
+          33,
+          36,
+          62,
+          65,
+          75,
+          78,
+          86,
+          98,
+          109,
+          122,
+          132,
+          140,
+          144,
+          152,
+          156,
+          167,
+          170,
+          173,
+          187,
+          199,
+          221,
+          234,
+          240,
+          249,
+          253,
+          267,
+          270,
+          276,
+          279,
+          297,
+          301,
+          317
+        ],
+        "planetary": [
+          17
+        ],
+        "boundary": [
+          18,
+          118,
+          298
+        ],
+        "layer": [
+          19,
+          119,
+          154,
+          299
+        ],
+        "(PBL).": [
+          20
+        ],
+        "Based": [
+          21
+        ],
+        "on": [
+          22
+        ],
+        "study": [
+          24,
+          207
+        ],
+        "of": [
+          25,
+          32,
+          35,
+          61,
+          67,
+          71,
+          77,
+          158,
+          166,
+          172,
+          198,
+          208,
+          220,
+          263,
+          269,
+          291
+        ],
+        "Noh": [
+          26
+        ],
+        "et": [
+          27
+        ],
+        "al.": [
+          28
+        ],
+        "and": [
+          29,
+          38,
+          52,
+          111,
+          128,
+          175,
+          190,
+          201
+        ],
+        "accumulated": [
+          30
+        ],
+        "results": [
+          31
+        ],
+        "behavior": [
+          34
+        ],
+        "Hong": [
+          37,
+          110,
+          174
+        ],
+        "Pan": [
+          39,
+          112,
+          176
+        ],
+        "algorithm,": [
+          40
+        ],
+        "algorithm": [
+          45
+        ],
+        "that": [
+          46,
+          216
+        ],
+        "is": [
+          47,
+          56,
+          64,
+          84,
+          101,
+          161,
+          177,
+          214,
+          256,
+          273,
+          295
+        ],
+        "suitable": [
+          48
+        ],
+        "for": [
+          49,
+          313
+        ],
+        "weather": [
+          50
+        ],
+        "forecasting": [
+          51
+        ],
+        "climate": [
+          53
+        ],
+        "prediction": [
+          54
+        ],
+        "models": [
+          55
+        ],
+        "developed.": [
+          57
+        ],
+        "The": [
+          58,
+          80,
+          114,
+          180
+        ],
+        "major": [
+          59
+        ],
+        "ingredient": [
+          60
+        ],
+        "revision": [
+          63
+        ],
+        "inclusion": [
+          66
+        ],
+        "an": [
+          68,
+          226
+        ],
+        "explicit": [
+          69
+        ],
+        "treatment": [
+          70
+        ],
+        "entrainment": [
+          72,
+          309
+        ],
+        "processes": [
+          73
+        ],
+        "at": [
+          74,
+          230
+        ],
+        "top": [
+          76
+        ],
+        "PBL.": [
+          79,
+          148
+        ],
+        "new": [
+          81,
+          241
+        ],
+        "called": [
+          85
+        ],
+        "Yonsei": [
+          87
+        ],
+        "University": [
+          88
+        ],
+        "PBL": [
+          89,
+          116,
+          168,
+          200,
+          236,
+          281,
+          303
+        ],
+        "(YSU": [
+          90
+        ],
+        "PBL).": [
+          91
+        ],
+        "In": [
+          92,
+          204,
+          275
+        ],
+        "one-dimensional": [
+          94
+        ],
+        "offline": [
+          95
+        ],
+        "test": [
+          96
+        ],
+        "framework,": [
+          97
+        ],
+        "scheme": [
+          100,
+          181,
+          242,
+          282,
+          304
+        ],
+        "found": [
+          102,
+          215
+        ],
+        "to": [
+          103
+        ],
+        "improve": [
+          104
+        ],
+        "several": [
+          105
+        ],
+        "features": [
+          106,
+          223
+        ],
+        "compared": [
+          107
+        ],
+        "implementation.": [
+          113
+        ],
+        "YSU": [
+          115,
+          280,
+          302
+        ],
+        "increases": [
+          117
+        ],
+        "thermally": [
+          123
+        ],
+        "induced": [
+          124,
+          134
+        ],
+        "free": [
+          125
+        ],
+        "convection": [
+          126,
+          136,
+          315
+        ],
+        "regime": [
+          127
+        ],
+        "decreases": [
+          129
+        ],
+        "it": [
+          130,
+          213
+        ],
+        "mechanically": [
+          133
+        ],
+        "forced": [
+          135
+        ],
+        "regime,": [
+          137
+        ],
+        "which": [
+          138
+        ],
+        "alleviates": [
+          139
+        ],
+        "well-known": [
+          141
+        ],
+        "problems": [
+          142
+        ],
+        "Medium-Range": [
+          145
+        ],
+        "Forecast": [
+          146,
+          191
+        ],
+        "(MRF)": [
+          147
+        ],
+        "Excessive": [
+          149
+        ],
+        "mixed": [
+          153
+        ],
+        "presence": [
+          157
+        ],
+        "strong": [
+          159
+        ],
+        "winds": [
+          160
+        ],
+        "resolved.": [
+          162,
+          238
+        ],
+        "Overly": [
+          163
+        ],
+        "rapid": [
+          164
+        ],
+        "growth": [
+          165
+        ],
+        "case": [
+          171,
+          206,
+          268
+        ],
+        "also": [
+          178
+        ],
+        "rectified.": [
+          179
+        ],
+        "has": [
+          182
+        ],
+        "been": [
+          183
+        ],
+        "successfully": [
+          184
+        ],
+        "implemented": [
+          185
+        ],
+        "Weather": [
+          188
+        ],
+        "Research": [
+          189
+        ],
+        "model": [
+          192
+        ],
+        "producing": [
+          193
+        ],
+        "more": [
+          195,
+          311
+        ],
+        "realistic": [
+          196
+        ],
+        "structure": [
+          197
+        ],
+        "its": [
+          202
+        ],
+        "development.": [
+          203
+        ],
+        "frontal": [
+          210,
+          277
+        ],
+        "tornado": [
+          211
+        ],
+        "outbreak,": [
+          212
+        ],
+        "some": [
+          217,
+          284
+        ],
+        "systematic": [
+          218
+        ],
+        "biases": [
+          219
+        ],
+        "large-scale": [
+          222
+        ],
+        "such": [
+          224,
+          286
+        ],
+        "as": [
+          225,
+          287
+        ],
+        "afternoon": [
+          227
+        ],
+        "cold": [
+          228
+        ],
+        "bias": [
+          229
+        ],
+        "850": [
+          231
+        ],
+        "hPa": [
+          232
+        ],
+        "MRF": [
+          235,
+          271
+        ],
+        "are": [
+          237
+        ],
+        "Consequently,": [
+          239
+        ],
+        "does": [
+          243
+        ],
+        "better": [
+          245
+        ],
+        "job": [
+          246
+        ],
+        "reproducing": [
+          248
+        ],
+        "convective": [
+          250,
+          254
+        ],
+        "inhibition.": [
+          251
+        ],
+        "Because": [
+          252
+        ],
+        "inhibition": [
+          255
+        ],
+        "accurately": [
+          257
+        ],
+        "predicted,": [
+          258
+        ],
+        "widespread": [
+          259
+        ],
+        "light": [
+          260
+        ],
+        "precipitation": [
+          261
+        ],
+        "ahead": [
+          262
+        ],
+        "front,": [
+          265
+        ],
+        "PBL,": [
+          272
+        ],
+        "reduced.": [
+          274
+        ],
+        "region,": [
+          278
+        ],
+        "improves": [
+          283
+        ],
+        "characteristics,": [
+          285
+        ],
+        "double": [
+          289
+        ],
+        "line": [
+          290
+        ],
+        "intense": [
+          292
+        ],
+        "convection.": [
+          293
+        ],
+        "because": [
+          296
+        ],
+        "from": [
+          300
+        ],
+        "remains": [
+          305
+        ],
+        "less": [
+          306
+        ],
+        "diluted": [
+          307
+        ],
+        "by": [
+          308
+        ],
+        "leaving": [
+          310
+        ],
+        "fuel": [
+          312
+        ],
+        "severe": [
+          314
+        ],
+        "when": [
+          316
+        ],
+        "front": [
+          318
+        ],
+        "triggers": [
+          319
+        ],
+        "it.": [
+          320
+        ]
+      },
+      "language": "en"
+    },
+    {
+      "id": "https://openalex.org/W4393319450",
+      "doi": "https://doi.org/10.1126/sciadv.adk4489",
+      "title": "Generative emulation of weather forecast ensembles with diffusion models",
+      "publication_year": 2024,
+      "type": "article",
+      "cited_by_count": 93,
+      "authorships": [
+        {
+          "author_position": "first",
+          "author": {
+            "id": "https://openalex.org/A5044919327",
+            "display_name": "Lizao Li",
+            "orcid": "https://orcid.org/0000-0001-7056-3368"
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1291425158",
+              "display_name": "Google (United States)",
+              "ror": "https://ror.org/00njsd438",
+              "country_code": "US",
+              "type": "company",
+              "lineage": [
+                "https://openalex.org/I1291425158",
+                "https://openalex.org/I4210128969"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "Lizao Li",
+          "raw_affiliation_strings": [
+            "Google Research, Mountain View, CA, USA"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0001-7056-3368",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Google Research, Mountain View, CA, USA",
+              "institution_ids": [
+                "https://openalex.org/I1291425158"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5017170163",
+            "display_name": "Robert W. Carver",
+            "orcid": "https://orcid.org/0000-0001-5085-0773"
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1291425158",
+              "display_name": "Google (United States)",
+              "ror": "https://ror.org/00njsd438",
+              "country_code": "US",
+              "type": "company",
+              "lineage": [
+                "https://openalex.org/I1291425158",
+                "https://openalex.org/I4210128969"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": true,
+          "raw_author_name": "Robert Carver",
+          "raw_affiliation_strings": [
+            "Google Research, Mountain View, CA, USA"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0001-5085-0773",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Google Research, Mountain View, CA, USA",
+              "institution_ids": [
+                "https://openalex.org/I1291425158"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5067976292",
+            "display_name": "Ignacio Lopez‐Gomez",
+            "orcid": "https://orcid.org/0000-0002-7255-5895"
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1291425158",
+              "display_name": "Google (United States)",
+              "ror": "https://ror.org/00njsd438",
+              "country_code": "US",
+              "type": "company",
+              "lineage": [
+                "https://openalex.org/I1291425158",
+                "https://openalex.org/I4210128969"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": true,
+          "raw_author_name": "Ignacio Lopez-Gomez",
+          "raw_affiliation_strings": [
+            "Google Research, Mountain View, CA, USA"
+          ],
+          "raw_orcid": "https://orcid.org/0000-0002-7255-5895",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Google Research, Mountain View, CA, USA",
+              "institution_ids": [
+                "https://openalex.org/I1291425158"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "middle",
+          "author": {
+            "id": "https://openalex.org/A5008648105",
+            "display_name": "Fei Sha",
+            "orcid": "https://orcid.org/0009-0006-1733-5482"
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1291425158",
+              "display_name": "Google (United States)",
+              "ror": "https://ror.org/00njsd438",
+              "country_code": "US",
+              "type": "company",
+              "lineage": [
+                "https://openalex.org/I1291425158",
+                "https://openalex.org/I4210128969"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": true,
+          "raw_author_name": "Fei Sha",
+          "raw_affiliation_strings": [
+            "Google Research, Mountain View, CA, USA"
+          ],
+          "raw_orcid": "https://orcid.org/0009-0006-1733-5482",
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Google Research, Mountain View, CA, USA",
+              "institution_ids": [
+                "https://openalex.org/I1291425158"
+              ]
+            }
+          ]
+        },
+        {
+          "author_position": "last",
+          "author": {
+            "id": "https://openalex.org/A5104479284",
+            "display_name": "John Anderson",
+            "orcid": null
+          },
+          "institutions": [
+            {
+              "id": "https://openalex.org/I1291425158",
+              "display_name": "Google (United States)",
+              "ror": "https://ror.org/00njsd438",
+              "country_code": "US",
+              "type": "company",
+              "lineage": [
+                "https://openalex.org/I1291425158",
+                "https://openalex.org/I4210128969"
+              ]
+            }
+          ],
+          "countries": [
+            "US"
+          ],
+          "is_corresponding": false,
+          "raw_author_name": "John Anderson",
+          "raw_affiliation_strings": [
+            "Google Research, Mountain View, CA, USA"
+          ],
+          "raw_orcid": null,
+          "affiliations": [
+            {
+              "raw_affiliation_string": "Google Research, Mountain View, CA, USA",
+              "institution_ids": [
+                "https://openalex.org/I1291425158"
+              ]
+            }
+          ]
+        }
+      ],
+      "primary_location": {
+        "id": "doi:10.1126/sciadv.adk4489",
+        "is_oa": true,
+        "landing_page_url": "https://doi.org/10.1126/sciadv.adk4489",
+        "pdf_url": null,
+        "source": {
+          "id": "https://openalex.org/S2737427234",
+          "display_name": "Science Advances",
+          "issn_l": "2375-2548",
+          "issn": [
+            "2375-2548"
+          ],
+          "is_oa": true,
+          "is_in_doaj": true,
+          "is_core": true,
+          "listed_in": [
+            "doyens",
+            "cwts-core",
+            "doaj"
+          ],
+          "host_organization": "https://openalex.org/P4310315823",
+          "host_organization_name": "American Association for the Advancement of Science",
+          "host_organization_lineage": [
+            "https://openalex.org/P4310315823"
+          ],
+          "host_organization_lineage_names": [
+            "American Association for the Advancement of Science"
+          ],
+          "type": "journal"
+        },
+        "license": "cc-by",
+        "license_id": "https://openalex.org/licenses/cc-by",
+        "version": "publishedVersion",
+        "is_accepted": true,
+        "is_published": true,
+        "raw_source_name": "Science Advances",
+        "raw_type": "journal-article"
+      },
+      "abstract_inverted_index": {
+        "Uncertainty": [
+          0
+        ],
+        "quantification": [
+          1
+        ],
+        "is": [
+          2,
+          9,
+          25,
+          40
+        ],
+        "crucial": [
+          3
+        ],
+        "to": [
+          4,
+          19,
+          26,
+          47,
+          73,
+          90,
+          100,
+          111
+        ],
+        "decision-making.": [
+          5
+        ],
+        "A": [
+          6
+        ],
+        "prominent": [
+          7
+        ],
+        "example": [
+          8
+        ],
+        "probabilistic": [
+          10,
+          125
+        ],
+        "forecasting": [
+          11,
+          24,
+          118
+        ],
+        "in": [
+          12,
+          22,
+          103,
+          115
+        ],
+        "numerical": [
+          13
+        ],
+        "weather": [
+          14,
+          23,
+          83,
+          137,
+          145
+        ],
+        "prediction.": [
+          15
+        ],
+        "The": [
+          16,
+          65
+        ],
+        "dominant": [
+          17
+        ],
+        "approach": [
+          18
+        ],
+        "representing": [
+          20
+        ],
+        "uncertainty": [
+          21
+        ],
+        "generate": [
+          27
+        ],
+        "an": [
+          28
+        ],
+        "ensemble": [
+          29,
+          93
+        ],
+        "of": [
+          30,
+          81,
+          135
+        ],
+        "forecasts": [
+          31,
+          55,
+          84
+        ],
+        "by": [
+          32,
+          52
+        ],
+        "running": [
+          33
+        ],
+        "physics-based": [
+          34,
+          101
+        ],
+        "simulations": [
+          35
+        ],
+        "under": [
+          36
+        ],
+        "different": [
+          37
+        ],
+        "conditions,": [
+          38
+        ],
+        "which": [
+          39
+        ],
+        "a": [
+          41
+        ],
+        "computationally": [
+          42
+        ],
+        "costly": [
+          43
+        ],
+        "process.": [
+          44
+        ],
+        "We": [
+          45
+        ],
+        "propose": [
+          46
+        ],
+        "amortize": [
+          48
+        ],
+        "the": [
+          49,
+          95,
+          116,
+          120
+        ],
+        "computational": [
+          50
+        ],
+        "cost": [
+          51
+        ],
+        "emulating": [
+          53
+        ],
+        "these": [
+          54
+        ],
+        "with": [
+          56,
+          71
+        ],
+        "deep": [
+          57
+        ],
+        "generative": [
+          58
+        ],
+        "diffusion": [
+          59
+        ],
+        "models": [
+          60,
+          67
+        ],
+        "learned": [
+          61,
+          66
+        ],
+        "from": [
+          62
+        ],
+        "historical": [
+          63
+        ],
+        "data.": [
+          64
+        ],
+        "are": [
+          68,
+          98,
+          129
+        ],
+        "highly": [
+          69
+        ],
+        "scalable": [
+          70
+        ],
+        "respect": [
+          72
+        ],
+        "high-performance": [
+          74
+        ],
+        "computing": [
+          75
+        ],
+        "accelerators": [
+          76
+        ],
+        "and": [
+          77,
+          106,
+          132
+        ],
+        "can": [
+          78
+        ],
+        "sample": [
+          79
+        ],
+        "thousands": [
+          80
+        ],
+        "realistic": [
+          82
+        ],
+        "at": [
+          85
+        ],
+        "low": [
+          86
+        ],
+        "cost.": [
+          87
+        ],
+        "When": [
+          88,
+          109
+        ],
+        "designed": [
+          89,
+          110
+        ],
+        "emulate": [
+          91
+        ],
+        "operational": [
+          92,
+          117
+        ],
+        "forecasts,": [
+          94
+        ],
+        "generated": [
+          96,
+          121
+        ],
+        "ones": [
+          97
+        ],
+        "similar": [
+          99
+        ],
+        "ensembles": [
+          102,
+          122,
+          155
+        ],
+        "statistical": [
+          104
+        ],
+        "properties": [
+          105
+        ],
+        "predictive": [
+          107
+        ],
+        "skill.": [
+          108
+        ],
+        "correct": [
+          112
+        ],
+        "biases": [
+          113
+        ],
+        "present": [
+          114
+        ],
+        "system,": [
+          119
+        ],
+        "show": [
+          123
+        ],
+        "improved": [
+          124
+        ],
+        "forecast": [
+          126,
+          133
+        ],
+        "metrics.": [
+          127
+        ],
+        "They": [
+          128
+        ],
+        "more": [
+          130,
+          139
+        ],
+        "reliable": [
+          131
+        ],
+        "probabilities": [
+          134
+        ],
+        "extreme": [
+          136
+        ],
+        "events": [
+          138
+        ],
+        "accurately.": [
+          140
+        ],
+        "While": [
+          141
+        ],
+        "we": [
+          142
+        ],
+        "focus": [
+          143
+        ],
+        "on": [
+          144
+        ],
+        "forecasting,": [
+          146
+        ],
+        "this": [
+          147
+        ],
+        "methodology": [
+          148
+        ],
+        "may": [
+          149
+        ],
+        "enable": [
+          150
+        ],
+        "creating": [
+          151
+        ],
+        "large": [
+          152
+        ],
+        "climate": [
+          153,
+          157
+        ],
+        "projection": [
+          154
+        ],
+        "for": [
+          156
+        ],
+        "risk": [
+          158
+        ],
+        "assessment.": [
+          159
+        ]
+      },
+      "language": "en"
+    }
+  ]
+}

@@ -17,6 +17,7 @@ from tenacity import (
 from briefing.errors import LLMRequestError, LLMTransientError
 from briefing.llm.base import CompletionRequest, LLMResponse
 from briefing.llm.budget import BudgetGuard
+from briefing.net import parse_retry_after
 
 _RETRYABLE_STATUS = frozenset({408, 409, 429, 500, 502, 503, 504})
 _MAX_BACKOFF_S = 30.0
@@ -37,17 +38,6 @@ def default_retry_wait(state: RetryCallState) -> float:
         if isinstance(exc, LLMTransientError) and exc.retry_after is not None:
             return min(exc.retry_after, _MAX_BACKOFF_S)
     return wait_exponential_jitter(initial=0.5, max=_MAX_BACKOFF_S)(state)
-
-
-def parse_retry_after(value: str | None) -> float | None:
-    """Parse a Retry-After header in delta-seconds form."""
-    if value is None:
-        return None
-    try:
-        seconds = float(value.strip())
-    except ValueError:
-        return None
-    return max(seconds, 0.0)
 
 
 class DeepSeekClient:

@@ -195,56 +195,12 @@ th {
 
 /* --- topic overview figure ------------------------------------------------ */
 
+/* The figure is inline SVG. WeasyPrint renders SVG with its own engine, which
+   ignores CSS rules targeting SVG elements (it even warns about them), so the
+   shapes carry their presentation attributes instead — see report/figures.py.
+   Only page-level spacing is styled here. */
 .overview {
-  width: 100%;
-  height: auto;
   margin: 2mm 0 4mm 0;
-}
-
-.overview .ov-topic {
-  fill: #eef3fa;
-  stroke: #9db4d0;
-  stroke-width: 1;
-}
-
-.overview .ov-topic-text {
-  fill: #1a1a1a;
-  font-size: 11px;
-  font-weight: bold;
-  text-anchor: middle;
-}
-
-.overview .ov-line {
-  stroke: #b9c4d0;
-  stroke-width: 1;
-  fill: none;
-}
-
-.overview .ov-card {
-  fill: #ffffff;
-  stroke: #d6d6d6;
-  stroke-width: 1;
-}
-
-.overview .ov-badge {
-  fill: #4a6fa5;
-}
-
-.overview .ov-badge-text {
-  fill: #ffffff;
-  font-size: 10px;
-  font-weight: bold;
-  text-anchor: middle;
-}
-
-.overview .ov-title {
-  fill: #1a1a1a;
-  font-size: 9.5px;
-}
-
-.overview .ov-meta {
-  fill: #666666;
-  font-size: 8.5px;
 }
 
 .overview-caption {

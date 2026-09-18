@@ -16,6 +16,7 @@ off by default, the whole loop would be unreachable.
 
 from __future__ import annotations
 
+import logging
 from collections.abc import Sequence
 from typing import Literal
 
@@ -40,6 +41,8 @@ from briefing.schemas import (
     citation_key,
 )
 
+logger = logging.getLogger(__name__)
+
 PROMPT_NAME = "synthesizer_v2"
 STAGE = "S6"
 TEMPERATURE = 0.3
@@ -52,6 +55,32 @@ _CJK_END = "\u9fff"
 def detect_language(topic: str) -> Literal["zh", "en"]:
     """AGENTS.md §8: the report language defaults to the topic's language."""
     return "zh" if any(_CJK_START <= character <= _CJK_END for character in topic) else "en"
+
+
+_SENTENCE_ENDS = ("。", "！", "？", ".", "；", ";", "，", ",")
+
+
+def shorten_summary(summary: str, limit: int) -> str:
+    """Bring the executive summary inside the report's limit.
+
+    The model overshoots the limit now and then. Asking again costs a whole
+    revision and may not help, so an over-long summary — a formatting overflow,
+    not a factual error — is trimmed here, at a sentence or word boundary.
+    The verifier still checks the limit as a safety net for other producers.
+    """
+    text = " ".join(summary.split())
+    if len(text) <= limit:
+        return text
+
+    window = text[: max(1, limit - 1)]
+    for marker in _SENTENCE_ENDS:
+        cut = window.rfind(marker)
+        if cut >= limit // 2:
+            return window[: cut + 1].rstrip()
+    cut = window.rfind(" ")
+    if cut >= limit // 3:
+        window = window[:cut]
+    return f"{window.rstrip()}…"
 
 
 class Synthesizer:
@@ -73,6 +102,7 @@ class Synthesizer:
         self._temperature = temperature
         self._summary_char_limit = summary_char_limit
         self._max_tokens = max_tokens
+        self.shortened_summaries = 0
 
     async def run(
         self,
@@ -170,13 +200,20 @@ class Synthesizer:
             PaperCard(citation_key=key, analysis=analysis)
             for key, analysis in zip(keys, analyses, strict=True)
         ]
+        summary = shorten_summary(draft.executive_summary, self._summary_char_limit)
+        if summary != draft.executive_summary:
+            self.shortened_summaries += 1
+            logger.info(
+                "shortened an over-long executive summary",
+                extra={"limit": self._summary_char_limit},
+            )
         return Briefing(
             paper_cards=cards,
             # run_id, topic and lang are run facts, not model output.
             run_id=run_id,
             topic=topic,
             lang=lang,
-            executive_summary=draft.executive_summary,
+            executive_summary=summary,
             background_md=draft.background_md,
             method_md=draft.method_md,
             comparison=draft.comparison,

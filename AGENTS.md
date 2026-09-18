@@ -153,13 +153,17 @@ briefing run --topic "diffusion models for weather forecasting" --out outputs/20
 
 ## 7. 检索与选文规则
 
-- 主数据源：**arXiv Atom API**（无需 key）。可选增强：OpenAlex、Crossref、Semantic Scholar（需要 key 时通过环境变量注入，缺失则跳过而非报错）。
+- 数据源：**arXiv Atom API**（主，无需 key）+ **OpenAlex**（备，无需 key）。二者默认启用；Crossref、Semantic Scholar 仍是可选项（需要 key 时通过环境变量注入，缺失则跳过而非报错）。
+- **任何单一数据源都不得拖垮整次运行**：某查询在自己的数据源上失败时，检索器必须把该查询以纯文本形式重试到其它已配置数据源，并记账（`dropped["source_fallback"]`，查询列表标注 `(fallback)`）。这是 arXiv 按 IP 限流（HTTP 406）时的正常降级路径，不是异常。
 - 候选量：先取 20–40 篇，再排序筛选出 3–5 篇；摘要少于 300 字符的候选降权。
 - 去重优先级：DOI → arXiv ID → 归一化标题（小写、去标点、压缩空白）。
 - 检索参数（查询式、时间窗、排序依据）必须完整写入 `manifest.json`，使结果可复现。
 - 不足 3 篇时：抛出明确错误，附「实际找到的候选数 + 所用查询 + 建议的放宽策略」，不允许降低标准凑数。
 - 缓存：原始响应存 `data/cache/<source>/<sha256(query+params)>.json`，默认 30 天内复用；`--no-cache` 可禁用。
 - 速率与合规：遵守各 API 的 rate limit 与 tos，请求带 `User-Agent: briefing/0.1 (+repo url)`。
+- **arXiv 的 406 是限流**（不是请求格式错误）：它针对来源 IP 按滚动窗口计算。因此同一 source 的请求必须**串行且至少间隔 3 秒**（`BRIEFING_SOURCE_MIN_INTERVAL_S`），收到 406/429 时进入**共享冷却**（20→120 秒，所有并发查询一起等待，不得各自重试把封禁续命），并有界重试（`BRIEFING_SOURCE_MAX_ATTEMPTS`，默认 4，`Retry-After` 优先）。详见 `docs/decisions/004-arxiv-rate-limits.md`。
+- **限流要熔断，不要逐查询重试**：整轮共享一个很小的限流重试预算（`RATE_LIMIT_ATTEMPTS`，默认 2 次请求）。用尽即把该 source 在本轮标记为不可用（`rate_limited`），后续查询**一次请求都不再发**，直接交给备用源。逐查询重试会白等十几分钟并把封禁续命——这是实测过的真实缺陷，别再改回去。
+- **重复运行靠缓存，不要习惯性加 `--no-cache`**：默认缓存下重跑不再请求 arXiv；`--no-cache` 每次都会真实抓取全部查询，是触发限流的主要途径。
 
 ---
 
@@ -170,7 +174,7 @@ briefing run --topic "diffusion models for weather forecasting" --out outputs/20
 章节顺序固定：
 
 1. 标题页：topic、生成日期、模型 id、论文数量
-2. 一句话结论（Executive summary，≤120 字）
+2. 一句话结论（Executive summary，≤120 字；模型超出时由 S6 按句子边界确定性收敛到上限，L1 仍作为兜底校验）
 3. **主题速览（面向快速阅读）**：一张 topic overview 图（主题 → 各论文的 hub-and-spoke）＋一张速览表（Ref / 论文 / 方法族 / 主要发现 / 与主题的关系）
 4. 主题背景与本次检索范围
 5. 检索方法与纳入/排除标准（可复现）

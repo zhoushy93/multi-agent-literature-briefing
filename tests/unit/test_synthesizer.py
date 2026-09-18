@@ -14,6 +14,7 @@ from briefing.agents.synthesizer import (
     citation_key,
     detect_language,
     render_violations,
+    shorten_summary,
 )
 from briefing.errors import BriefingError, SchemaValidationError
 from briefing.llm.base import CompletionRequest, LLMResponse
@@ -273,14 +274,33 @@ async def test_summary_length_limit_is_requested_in_the_prompt() -> None:
 
 
 async def test_over_long_summary_length_is_passed_through_to_the_verifier() -> None:
-    """S6 asks for the limit; L1 reports a breach so the revision loop can run.
+    """An over-long summary is trimmed, not retried and not fatal.
 
-    If S6 rejected it here, the verifier's length_limit rule would never fire
-    in a normal run and the revision path would be dead code.
+    A revision costs a model call and may overshoot again; the limit is a
+    formatting constraint, so it is enforced here. L1 still checks it as a
+    safety net for briefings produced any other way.
     """
-    over_long = "x" * (MAX_SUMMARY_CHARS + 40)
+    over_long = "Diffusion models improve forecasts. " * 10
     briefing, _ = await run_synth([briefing_payload(executive_summary=over_long)])
-    assert len(briefing.executive_summary) > MAX_SUMMARY_CHARS
+    assert len(briefing.executive_summary) <= MAX_SUMMARY_CHARS
+    assert over_long.strip().startswith(briefing.executive_summary.rstrip("…"))
+
+
+@pytest.mark.parametrize(
+    ("summary", "limit"),
+    [
+        ("Short enough.", 40),
+        ("First sentence. Second sentence is longer than the budget allows.", 30),
+        ("扩散模型提升了预报精度。这是第二句话，用来测试中文截断。", 20),
+        ("one two three four five six seven eight nine ten", 24),
+    ],
+)
+def test_shorten_summary_never_exceeds_the_limit(summary: str, limit: int) -> None:
+    shortened = shorten_summary(summary, limit)
+    assert len(shortened) <= limit
+    assert shortened
+    if len(summary) > limit:
+        assert summary.startswith(shortened.rstrip("…"))
 
 
 async def test_comparison_rows_are_requested_in_the_prompt() -> None:

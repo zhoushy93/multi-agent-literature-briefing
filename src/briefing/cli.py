@@ -27,7 +27,7 @@ from briefing.llm.budget import BudgetGuard
 from briefing.manifest import RunManifest
 from briefing.orchestrator import DEFAULT_CACHE_DIR, Orchestrator
 from briefing.schemas import TopicRequest
-from briefing.sources import create_source
+from briefing.sources import create_sources
 from briefing.sources.cache import CacheStore
 
 PROG = "briefing"
@@ -184,7 +184,7 @@ async def execute(request: TopicRequest, settings: Settings) -> RunManifest:
     )
     llm = create_llm_client(settings, budget)
     cache = CacheStore(root=DEFAULT_CACHE_DIR, enabled=not request.no_cache)
-    sources = [create_source(settings, cache)]
+    sources = create_sources(settings, cache)
     try:
         return await Orchestrator(
             request=request,

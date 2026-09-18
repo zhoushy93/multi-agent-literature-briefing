@@ -106,6 +106,8 @@ uv run briefing run --topic "diffusion models for weather forecasting" \
 | `finish_reason=length` | 模型回复被输出上限截断（推理模型的思维 token 也占这个预算） | 调大 `BRIEFING_MAX_OUTPUT_TOKENS`，或调小 `BRIEFING_MAX_CANDIDATES` |
 | `SourceError: no recorded source response` | stub 模式缺少录制文件 | 确认 `BRIEFING_FIXTURES_DIR` 下有 `*.xml` 录制 |
 | 检索偶发失败 | 单个查询 429/超时会降级，其余查询继续 | 正常现象；失败详情记在日志与 `retrieval` 中 |
+| `arxiv returned HTTP 406` | **arXiv 在限流这个 IP**（不是请求写错了）。同一来源的请求串行 + 至少间隔 3 秒；被限流时整轮只重试 2 次即**熔断**，后续查询直接走备用源 | 通常无需干预，运行会照常完成；想恢复 arXiv 就等几分钟，并**去掉 `--no-cache`** 让重复运行复用缓存 |
+| 日志出现 `retrying failed queries on another source` | arXiv 被限流，检索器**自动改用 OpenAlex**（默认启用，无需 key），运行照常完成 | 正常降级；`papers.json` 的 `origin` 会显示 `openalex`。想进 OpenAlex 的 polite pool 可设置 `BRIEFING_OPENALEX_MAILTO` |
 
 ---
 

@@ -18,7 +18,8 @@ from briefing.errors import (
 )
 from briefing.llm.base import CompletionRequest, LLMResponse, complete_structured
 from briefing.llm.budget import BudgetGuard
-from briefing.llm.deepseek_client import DeepSeekClient, default_retry_wait, parse_retry_after
+from briefing.llm.deepseek_client import DeepSeekClient, default_retry_wait
+from briefing.net import parse_retry_after
 from briefing.schemas import Contract
 
 BASE_URL = "https://api.deepseek.com"

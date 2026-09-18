@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 from collections.abc import Iterator
 from datetime import UTC, datetime
 from pathlib import Path
@@ -38,9 +39,20 @@ async def make_source(tmp_path: Path) -> Iterator[object]:
     """Factory that builds sources and closes their HTTP clients afterwards."""
     created: list[ArxivSource] = []
 
-    def _make(*, enabled: bool = True) -> ArxivSource:
+    def _make(
+        *,
+        enabled: bool = True,
+        min_interval_s: float = 0.0,
+        max_attempts: int = 4,
+        sleep: object = None,
+        monotonic: object = None,
+    ) -> ArxivSource:
         source = ArxivSource(
-            cache=CacheStore(root=tmp_path / "cache", enabled=enabled, clock=lambda: NOW)
+            cache=CacheStore(root=tmp_path / "cache", enabled=enabled, clock=lambda: NOW),
+            min_interval_s=min_interval_s,
+            max_attempts=max_attempts,
+            sleep=sleep,  # type: ignore[arg-type]
+            monotonic=monotonic,  # type: ignore[arg-type]
         )
         created.append(source)
         return source
@@ -152,7 +164,9 @@ async def test_malformed_xml_raises_a_source_error(make_source: object) -> None:
 async def test_http_error_raises_a_source_error(make_source: object) -> None:
     respx.get(ARXIV_ENDPOINT).mock(return_value=httpx.Response(503))
     with pytest.raises(SourceError, match="503"):
-        await make_source().search("all:diffusion", FetchParams())  # type: ignore[operator]
+        await make_source(max_attempts=1).search(  # type: ignore[operator]
+            "all:diffusion", FetchParams()
+        )
 
 
 @respx.mock
@@ -220,3 +234,229 @@ async def test_open_ended_time_window_uses_the_default_bounds(make_source: objec
     )
     query = route.calls[0].request.url.params["search_query"]
     assert "submittedDate:[199101010000 TO 299912312359]" in query
+
+
+# --- politeness: spacing and retries -----------------------------------------
+
+
+async def no_sleep(seconds: float) -> None:
+    return None
+
+
+@respx.mock
+async def test_rate_limit_is_retried_then_succeeds(make_source: object) -> None:
+    """arXiv answers bursts with 406; that must not fail the query."""
+    waited: list[float] = []
+
+    async def fake_sleep(seconds: float) -> None:
+        waited.append(seconds)
+
+    route = respx.get(ARXIV_ENDPOINT).mock(
+        side_effect=[
+            httpx.Response(406),
+            httpx.Response(200, text=fixture_text()),
+        ]
+    )
+    source = make_source(sleep=fake_sleep)  # type: ignore[operator]
+    papers = await source.search("all:diffusion", FetchParams())
+
+    assert route.call_count == 2, "a 406 is retried, not surfaced"
+    assert len(papers) == 4
+    assert waited, "the retry must pause before trying again"
+
+
+@respx.mock
+async def test_persistent_rate_limiting_fails_with_a_clear_message(
+    make_source: object,
+) -> None:
+    """One quick retry, then the breaker trips instead of hammering on."""
+    route = respx.get(ARXIV_ENDPOINT).mock(return_value=httpx.Response(406))
+    source = make_source(max_attempts=3, sleep=no_sleep)  # type: ignore[operator]
+    with pytest.raises(SourceError, match="rate-limited"):
+        await source.search("all:diffusion", FetchParams())
+    assert route.call_count == 2, "a rate limit is retried once, not four times"
+    assert source.rate_limited is True
+
+
+@respx.mock
+async def test_the_breaker_stops_asking_arxiv_for_the_rest_of_the_run(
+    make_source: object,
+) -> None:
+    """After a rate limit, later queries must not spend attempts on arXiv."""
+    route = respx.get(ARXIV_ENDPOINT).mock(return_value=httpx.Response(406))
+    source = make_source(sleep=no_sleep)  # type: ignore[operator]
+
+    for _ in range(3):
+        with pytest.raises(SourceError):
+            await source.search("all:diffusion", FetchParams())
+
+    assert route.call_count == 2, "only the first query talks to arXiv"
+
+
+@respx.mock
+async def test_concurrent_queries_do_not_slip_past_the_breaker(
+    make_source: object,
+) -> None:
+    """Queries already in flight when the breaker trips must not send either."""
+    route = respx.get(ARXIV_ENDPOINT).mock(return_value=httpx.Response(406))
+    source = make_source(sleep=no_sleep)  # type: ignore[operator]
+
+    results = await asyncio.gather(
+        *(source.search(f"all:topic{index}", FetchParams()) for index in range(4)),
+        return_exceptions=True,
+    )
+
+    assert all(isinstance(result, SourceError) for result in results)
+    assert route.call_count == 2, "the retry budget is spent once for the whole run"
+
+
+@respx.mock
+async def test_the_rate_limit_budget_is_run_wide(make_source: object) -> None:
+    """Two queries must not cost four requests: the budget is shared."""
+    route = respx.get(ARXIV_ENDPOINT).mock(return_value=httpx.Response(406))
+    source = make_source(sleep=no_sleep)  # type: ignore[operator]
+
+    for _ in range(4):
+        with pytest.raises(SourceError):
+            await source.search("all:diffusion", FetchParams())
+
+    assert route.call_count == 2
+
+
+@respx.mock
+async def test_a_server_error_keeps_the_full_retry_budget(make_source: object) -> None:
+    """A 503 is transient, so it is retried more than a rate limit is."""
+    route = respx.get(ARXIV_ENDPOINT).mock(return_value=httpx.Response(503))
+    source = make_source(max_attempts=3, sleep=no_sleep)  # type: ignore[operator]
+    with pytest.raises(SourceError):
+        await source.search("all:diffusion", FetchParams())
+    assert route.call_count == 3
+    assert source.rate_limited is False
+
+
+@respx.mock
+async def test_requests_are_spaced_out(make_source: object) -> None:
+    """Two queries must not leave back to back: that is what caused the 406."""
+    slept: list[float] = []
+    clock = {"now": 100.0}
+
+    async def fake_sleep(seconds: float) -> None:
+        slept.append(seconds)
+        clock["now"] += seconds
+
+    serve(fixture_text())
+    source = make_source(  # type: ignore[operator]
+        min_interval_s=3.0,
+        sleep=fake_sleep,
+        monotonic=lambda: clock["now"],
+    )
+    await source.search("all:diffusion", FetchParams(max_results=10))
+    await source.search("all:diffusion", FetchParams(max_results=20))
+
+    assert slept == [3.0], "the second request waits out the minimum interval"
+
+
+@respx.mock
+async def test_retry_after_header_is_honoured(make_source: object) -> None:
+    slept: list[float] = []
+    clock = {"now": 500.0}
+
+    async def fake_sleep(seconds: float) -> None:
+        slept.append(seconds)
+        clock["now"] += seconds
+
+    respx.get(ARXIV_ENDPOINT).mock(
+        side_effect=[
+            httpx.Response(429, headers={"Retry-After": "7"}),
+            httpx.Response(200, text=fixture_text()),
+        ]
+    )
+    source = make_source(  # type: ignore[operator]
+        sleep=fake_sleep,
+        monotonic=lambda: clock["now"],
+    )
+    await source.search("all:diffusion", FetchParams())
+    assert slept == [7.0], "the server's Retry-After is honoured exactly once"
+
+
+@respx.mock
+async def test_a_client_error_is_not_retried(make_source: object) -> None:
+    route = respx.get(ARXIV_ENDPOINT).mock(return_value=httpx.Response(400))
+    with pytest.raises(SourceError, match="400"):
+        await make_source(sleep=no_sleep).search(  # type: ignore[operator]
+            "all:diffusion", FetchParams()
+        )
+    assert route.call_count == 1
+
+
+@respx.mock
+async def test_a_network_error_is_retried(make_source: object) -> None:
+    route = respx.get(ARXIV_ENDPOINT).mock(
+        side_effect=[
+            httpx.ConnectTimeout("boom"),
+            httpx.Response(200, text=fixture_text()),
+        ]
+    )
+    source = make_source(sleep=no_sleep)  # type: ignore[operator]
+    papers = await source.search("all:diffusion", FetchParams())
+    assert route.call_count == 2
+    assert len(papers) == 4
+
+
+@respx.mock
+async def test_a_cooldown_is_shared_between_queries(make_source: object) -> None:
+    """The breaker is shared: the second query does not ask arXiv again."""
+    slept: list[float] = []
+    clock = {"now": 1000.0}
+
+    async def fake_sleep(seconds: float) -> None:
+        slept.append(seconds)
+        clock["now"] += seconds
+
+    route = respx.get(ARXIV_ENDPOINT).mock(return_value=httpx.Response(406))
+    source = make_source(  # type: ignore[operator]
+        sleep=fake_sleep,
+        monotonic=lambda: clock["now"],
+    )
+    results = await asyncio.gather(
+        source.search("all:diffusion", FetchParams(max_results=10)),
+        source.search("all:diffusion", FetchParams(max_results=20)),
+        return_exceptions=True,
+    )
+
+    assert all(isinstance(result, SourceError) for result in results)
+    assert route.call_count == 2, "one query spends the attempts; the other skips"
+    assert source.rate_limited is True
+    assert slept, "the first query still pauses once before giving up"
+
+
+async def test_only_one_request_is_in_flight_at_a_time(tmp_path: Path) -> None:
+    """The terms of use allow a single connection at a time."""
+    state = {"active": 0, "peak": 0}
+
+    async def handler(request: httpx.Request) -> httpx.Response:
+        state["active"] += 1
+        state["peak"] = max(state["peak"], state["active"])
+        await asyncio.sleep(0.01)
+        state["active"] -= 1
+        return httpx.Response(200, text=fixture_text())
+
+    transport = httpx.MockTransport(handler)
+    async with httpx.AsyncClient(transport=transport) as client:
+        source = ArxivSource(
+            cache=CacheStore(root=tmp_path / "cache", enabled=False),
+            http_client=client,
+            min_interval_s=0.0,
+        )
+        await asyncio.gather(*(source.search(f"all:q{index}", FetchParams()) for index in range(5)))
+
+    assert state["peak"] == 1, "requests must never overlap"
+
+
+async def test_the_connection_pool_is_capped(tmp_path: Path) -> None:
+    source = ArxivSource(cache=CacheStore(root=tmp_path / "cache", enabled=False))
+    try:
+        pool = source._http._transport._pool
+        assert pool._max_connections == 1
+    finally:
+        await source.aclose()

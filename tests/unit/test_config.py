@@ -55,6 +55,9 @@ def test_defaults_match_the_documented_guardrails() -> None:
     assert settings.max_candidates == 40
     assert settings.max_output_tokens == 8192
     assert settings.deepseek_thinking == "disabled"
+    assert settings.source_min_interval_s == 3.0
+    assert settings.source_max_attempts == 4
+    assert settings.openalex_mailto is None
     assert settings.llm_mode == "live"
     assert settings.verify_semantic is False
     assert settings.deepseek_api_key is None
@@ -88,9 +91,10 @@ def test_api_key_is_read_from_either_spelling(variable: str) -> None:
 
 def test_blank_env_values_are_treated_as_unset() -> None:
     """A copied .env.example must not break the run."""
-    settings = load(DEEPSEEK_API_KEY="", BRIEFING_FIXTURES_DIR="")
+    settings = load(DEEPSEEK_API_KEY="", BRIEFING_FIXTURES_DIR="", BRIEFING_OPENALEX_MAILTO="")
     assert settings.deepseek_api_key is None
     assert settings.fixtures_dir is None
+    assert settings.openalex_mailto is None
 
 
 def test_stub_mode_requires_a_fixtures_directory() -> None:
@@ -116,6 +120,8 @@ def test_stub_mode_accepts_a_fixtures_directory() -> None:
         {"BRIEFING_MAX_CANDIDATES": "4"},
         {"BRIEFING_MAX_OUTPUT_TOKENS": "100"},
         {"BRIEFING_DEEPSEEK_THINKING": "always"},
+        {"BRIEFING_SOURCE_MIN_INTERVAL_S": "61"},
+        {"BRIEFING_SOURCE_MAX_ATTEMPTS": "0"},
     ],
 )
 def test_out_of_range_values_are_rejected(kwargs: dict[str, str]) -> None:

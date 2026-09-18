@@ -49,6 +49,13 @@ class Settings(BaseSettings):
     max_candidates: int = Field(default=40, ge=5, le=200)
     # A truncated reply is unusable, and long candidate lists need headroom.
     max_output_tokens: int = Field(default=8192, ge=512, le=64_000)
+    # arXiv rate-limits bursts with HTTP 406, so requests to one source are
+    # spaced out and retried (AGENTS.md §7).
+    source_min_interval_s: float = Field(default=3.0, ge=0.0, le=60.0)
+    source_max_attempts: int = Field(default=4, ge=1, le=10)
+    # OpenAlex puts clients that identify a contact address in its "polite
+    # pool". Optional: without it the source still works.
+    openalex_mailto: str | None = None
 
     llm_mode: Literal["live", "stub"] = "live"
     fixtures_dir: Path | None = None
@@ -58,6 +65,7 @@ class Settings(BaseSettings):
         "deepseek_api_key",
         "deepseek_model_reasoning",
         "fixtures_dir",
+        "openalex_mailto",
         mode="before",
     )
     @classmethod
